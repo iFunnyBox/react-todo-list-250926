@@ -89,7 +89,8 @@ export default function Home() {
   const fetchTodos = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/todos?status=${status}&sortBy=${sortBy}&sortDir=desc`, {
+      const sortDir = sortBy === 'dueDate' ? 'asc' : 'desc';
+      const res = await fetch(`/api/todos?status=${status}&sortBy=${sortBy}&sortDir=${sortDir}`, {
         cache: 'no-store',
       });
       const json = await res.json();
@@ -155,7 +156,19 @@ export default function Home() {
     fetchTodos();
   }, [status, sortBy]);
 
-  const rows = useMemo(() => items, [items]);
+  const rows = useMemo(() => {
+    const arr = [...items];
+    if (sortBy === 'order') {
+      arr.sort((a, b) => (idMap[a.id] ?? 0) - (idMap[b.id] ?? 0));
+    } else if (sortBy === 'dueDate') {
+      arr.sort((a, b) => {
+        const aTime = a.dueDate ? new Date(a.dueDate).getTime() : Infinity;
+        const bTime = b.dueDate ? new Date(b.dueDate).getTime() : Infinity;
+        return aTime - bTime; // 升序
+      });
+    }
+    return arr;
+  }, [items, sortBy, idMap]);
 
   const handleCreate = async () => {
     if (!newTitle.trim()) return;
