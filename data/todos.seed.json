@@ -1,0 +1,83 @@
+[
+  {
+    "id": "clxyz1234567890abcdef",
+    "title": "Setup development environment",
+    "completed": true,
+    "createdAt": "2024-01-01T10:00:00.000Z",
+    "updatedAt": "2024-01-01T12:00:00.000Z",
+    "order": 1,
+    "notes": "Install Node.js, npm, and setup the project structure",
+    "tags": ["setup", "dev", "infrastructure"]
+  },
+  {
+    "id": "clxyz2345678901bcdefg",
+    "title": "Create API documentation",
+    "completed": false,
+    "createdAt": "2024-01-02T09:00:00.000Z",
+    "updatedAt": "2024-01-02T09:00:00.000Z",
+    "order": 2,
+    "notes": "Document all API endpoints with examples and response formats",
+    "tags": ["documentation", "api"],
+    "dueDate": "2024-01-15T17:00:00.000Z"
+  },
+  {
+    "id": "clxyz3456789012cdefgh",
+    "title": "Implement authentication system",
+    "completed": false,
+    "createdAt": "2024-01-03T14:30:00.000Z",
+    "updatedAt": "2024-01-03T14:30:00.000Z",
+    "order": 3,
+    "tags": ["feature", "security", "backend"],
+    "dueDate": "2024-01-20T17:00:00.000Z"
+  },
+  {
+    "id": "clxyz4567890123defghi",
+    "title": "Write unit tests for core functions",
+    "completed": false,
+    "createdAt": "2024-01-04T11:15:00.000Z",
+    "updatedAt": "2024-01-04T11:15:00.000Z",
+    "order": 4,
+    "notes": "Cover all critical API endpoints with comprehensive test cases",
+    "tags": ["testing", "quality"]
+  },
+  {
+    "id": "clxyz5678901234efghij",
+    "title": "Setup CI/CD pipeline",
+    "completed": false,
+    "createdAt": "2024-01-05T16:45:00.000Z",
+    "updatedAt": "2024-01-05T16:45:00.000Z",
+    "order": 5,
+    "notes": "Configure GitHub Actions for automated testing and deployment",
+    "tags": ["devops", "automation", "deployment"]
+  },
+  {
+    "id": "clxyz6789012345fghijk",
+    "title": "Optimize database queries",
+    "completed": true,
+    "createdAt": "2024-01-06T13:20:00.000Z",
+    "updatedAt": "2024-01-07T09:30:00.000Z",
+    "order": 6,
+    "notes": "Identified and optimized N+1 queries, added proper indexing",
+    "tags": ["performance", "database", "optimization"]
+  },
+  {
+    "id": "clxyz7890123456ghijkl",
+    "title": "Add rate limiting middleware",
+    "completed": false,
+    "createdAt": "2024-01-07T10:00:00.000Z",
+    "updatedAt": "2024-01-07T10:00:00.000Z",
+    "order": 7,
+    "tags": ["security", "feature", "middleware"],
+    "dueDate": "2024-01-25T17:00:00.000Z"
+  },
+  {
+    "id": "clxyz8901234567hijklm",
+    "title": "Refactor error handling",
+    "completed": true,
+    "createdAt": "2024-01-08T15:30:00.000Z",
+    "updatedAt": "2024-01-09T11:45:00.000Z",
+    "order": 8,
+    "notes": "Implemented centralized error handling with proper status codes",
+    "tags": ["refactoring", "error-handling"]
+  }
+]

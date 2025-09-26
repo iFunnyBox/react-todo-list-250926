@@ -1,0 +1,140 @@
+### Todo API Test File
+### Base URL: http://localhost:3001
+
+### 1. Get all todos (default)
+GET http://localhost:3001/api/todos
+
+### 2. Get all todos with status filter (active)
+GET http://localhost:3001/api/todos?status=active
+
+### 3. Get all todos with status filter (completed)
+GET http://localhost:3001/api/todos?status=completed
+
+### 4. Get todos with search
+GET http://localhost:3001/api/todos?search=test
+
+### 5. Get todos with sorting (by dueDate, ascending)
+GET http://localhost:3001/api/todos?sortBy=dueDate&sortDir=asc
+
+### 6. Get todos with multiple filters
+GET http://localhost:3001/api/todos?status=active&sortBy=order&sortDir=asc
+
+### 7. Create a new todo
+POST http://localhost:3001/api/todos
+Content-Type: application/json
+
+{
+  "title": "Test Todo Item",
+  "notes": "This is a test todo created via API",
+  "tags": ["test", "api"],
+  "dueDate": "2024-12-31T23:59:59.000Z",
+  "order": 10
+}
+
+### 8. Create a minimal todo
+POST http://localhost:3001/api/todos
+Content-Type: application/json
+
+{
+  "title": "Minimal Todo"
+}
+
+### 9. Get a specific todo by ID (replace with actual ID)
+GET http://localhost:3001/api/todos/clxyz1234567890abcdef
+
+### 10. Update a todo (partial update)
+PATCH http://localhost:3001/api/todos/clxyz1234567890abcdef
+Content-Type: application/json
+
+{
+  "completed": true,
+  "notes": "Updated notes for this todo"
+}
+
+### 11. Update todo title and tags
+PATCH http://localhost:3001/api/todos/clxyz1234567890abcdef
+Content-Type: application/json
+
+{
+  "title": "Updated Todo Title",
+  "tags": ["updated", "modified"]
+}
+
+### 12. Toggle todo completion status
+PATCH http://localhost:3001/api/todos/clxyz1234567890abcdef
+Content-Type: application/json
+
+{
+  "completed": false
+}
+
+### 13. Delete a todo
+DELETE http://localhost:3001/api/todos/clxyz1234567890abcdef
+
+### 14. Bulk action - Complete all todos
+PATCH http://localhost:3001/api/todos/bulk
+Content-Type: application/json
+
+{
+  "action": "completeAll",
+  "payload": {
+    "completed": true
+  }
+}
+
+### 15. Bulk action - Uncomplete all todos
+PATCH http://localhost:3001/api/todos/bulk
+Content-Type: application/json
+
+{
+  "action": "completeAll",
+  "payload": {
+    "completed": false
+  }
+}
+
+### 16. Bulk action - Clear completed todos
+PATCH http://localhost:3001/api/todos/bulk
+Content-Type: application/json
+
+{
+  "action": "clearCompleted",
+  "payload": {}
+}
+
+### 17. Bulk action - Reorder todos
+PATCH http://localhost:3001/api/todos/bulk
+Content-Type: application/json
+
+{
+  "action": "reorder",
+  "payload": {
+    "orders": [
+      { "id": "clxyz1234567890abcdef", "order": 1 },
+      { "id": "clxyz2345678901bcdefg", "order": 2 },
+      { "id": "clxyz3456789012cdefgh", "order": 3 }
+    ]
+  }
+}
+
+### 18. Test validation error - Invalid title (empty)
+POST http://localhost:3001/api/todos
+Content-Type: application/json
+
+{
+  "title": ""
+}
+
+### 19. Test validation error - Title too long
+POST http://localhost:3001/api/todos
+Content-Type: application/json
+
+{
+  "title": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+}
+
+### 20. Test 404 error - Non-existent todo
+GET http://localhost:3001/api/todos/non-existent-id
+
+### 21. Test OPTIONS (CORS preflight)
+OPTIONS http://localhost:3001/api/todos
