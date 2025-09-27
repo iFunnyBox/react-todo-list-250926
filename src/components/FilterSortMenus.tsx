@@ -1,11 +1,6 @@
 'use client';
 import { useState } from 'react';
-import {
-  IconButton,
-  Menu,
-  MenuItem,
-  Box,
-} from '@mui/material';
+import { IconButton, Menu, MenuItem, Box } from '@mui/material';
 import TuneIcon from '@mui/icons-material/Tune';
 import SortIcon from '@mui/icons-material/Sort';
 import CheckIcon from '@mui/icons-material/Check';

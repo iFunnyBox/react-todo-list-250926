@@ -1,13 +1,5 @@
 'use client';
-import { useState } from 'react';
-import {
-  Box,
-  Checkbox,
-  TableCell,
-  TableRow,
-  Typography,
-  TextField,
-} from '@mui/material';
+import { Box, Checkbox, TableCell, TableRow, Typography, TextField } from '@mui/material';
 import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
 import CheckIcon from '@mui/icons-material/Check';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
@@ -39,7 +31,6 @@ export const TodoRow: React.FC<TodoRowProps> = ({
   onEditingTitleChange,
   onSaveEditTitle,
   onCancelEditTitle,
-  editingSubmitting,
 }) => {
   const isEditing = editingId === todo.id;
 
@@ -51,12 +42,7 @@ export const TodoRow: React.FC<TodoRowProps> = ({
           checked={todo.completed}
           disableRipple
           sx={{ p: 0.5 }}
-          icon={
-            <RadioButtonUncheckedOutlinedIcon
-              fontSize="small"
-              sx={{ color: 'grey.500' }}
-            />
-          }
+          icon={<RadioButtonUncheckedOutlinedIcon fontSize="small" sx={{ color: 'grey.500' }} />}
           checkedIcon={
             <Box
               component="span"
@@ -108,16 +94,11 @@ export const TodoRow: React.FC<TodoRowProps> = ({
             {formatDateTime(todo.dueDate)}
           </Typography>
         ) : (
-          <CalendarTodayOutlinedIcon
-            sx={{ color: 'text.disabled' }}
-            fontSize="small"
-          />
+          <CalendarTodayOutlinedIcon sx={{ color: 'text.disabled' }} fontSize="small" />
         )}
       </TableCell>
       <TableCell>{formatDateTime(todo.createdAt)}</TableCell>
-      <TableCell sx={{ width: 140, whiteSpace: 'nowrap' }}>
-        {idMap[todo.id] ?? ''}
-      </TableCell>
+      <TableCell sx={{ width: 140, whiteSpace: 'nowrap' }}>{idMap[todo.id] ?? ''}</TableCell>
     </TableRow>
   );
 };

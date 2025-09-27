@@ -158,13 +158,17 @@ export default function Home() {
             startIcon={<AddIcon />}
             onClick={() => setOpen(true)}
             sx={{
-              color: 'common.white',
-              borderColor: 'rgba(255,255,255,0.3)',
+              color: 'text.primary',
+              borderColor: 'divider',
               borderRadius: 2,
               textTransform: 'none',
               height: 36,
               px: 2.5,
-              '&:hover': { bgcolor: 'transparent', borderColor: 'rgba(255,255,255,0.5)' },
+              '&:hover': { 
+                bgcolor: 'action.hover', 
+                borderColor: 'primary.main',
+                color: 'primary.main',
+              },
             }}
           >
             New Task

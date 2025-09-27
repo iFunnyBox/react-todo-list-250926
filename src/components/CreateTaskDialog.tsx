@@ -16,11 +16,7 @@ interface CreateTaskDialogProps {
   onCreate: (title: string, dueDate?: string) => void;
 }
 
-export const CreateTaskDialog: React.FC<CreateTaskDialogProps> = ({
-  open,
-  onClose,
-  onCreate,
-}) => {
+export const CreateTaskDialog: React.FC<CreateTaskDialogProps> = ({ open, onClose, onCreate }) => {
   const [title, setTitle] = useState('');
   const [dueDate, setDueDate] = useState('');
 

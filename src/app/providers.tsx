@@ -1,6 +1,6 @@
-"use client";
-import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
-import { useState, useEffect, createContext, useContext } from "react";
+'use client';
+import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+import { useState, useEffect, createContext, useContext } from 'react';
 
 // 主题上下文
 const ThemeContext = createContext<{
@@ -14,11 +14,7 @@ const ThemeContext = createContext<{
 // 自定义 Hook
 export const useTheme = () => useContext(ThemeContext);
 
-export default function AppThemeProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AppThemeProvider({ children }: { children: React.ReactNode }) {
   const [mode, setMode] = useState<'light' | 'dark'>('dark');
 
   // 从 localStorage 读取主题偏好
@@ -70,7 +66,8 @@ export default function AppThemeProvider({
       },
     },
     typography: {
-      fontFamily: 'var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
+      fontFamily:
+        'var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
       h1: {
         fontSize: '2.5rem',
         fontWeight: 700,
@@ -128,16 +125,18 @@ export default function AppThemeProvider({
             fontWeight: 500,
             boxShadow: 'none',
             '&:hover': {
-              boxShadow: mode === 'dark' 
-                ? '0px 2px 4px rgba(0, 0, 0, 0.3)' 
-                : '0px 2px 4px rgba(0, 0, 0, 0.1)',
+              boxShadow:
+                mode === 'dark'
+                  ? '0px 2px 4px rgba(0, 0, 0, 0.3)'
+                  : '0px 2px 4px rgba(0, 0, 0, 0.1)',
             },
           },
           contained: {
             '&:hover': {
-              boxShadow: mode === 'dark' 
-                ? '0px 4px 8px rgba(0, 0, 0, 0.4)' 
-                : '0px 4px 8px rgba(0, 0, 0, 0.15)',
+              boxShadow:
+                mode === 'dark'
+                  ? '0px 4px 8px rgba(0, 0, 0, 0.4)'
+                  : '0px 4px 8px rgba(0, 0, 0, 0.15)',
             },
           },
         },
@@ -161,14 +160,14 @@ export default function AppThemeProvider({
             backgroundImage: 'none',
           },
           elevation1: {
-            boxShadow: mode === 'dark' 
-              ? '0px 2px 8px rgba(0, 0, 0, 0.3)' 
-              : '0px 2px 8px rgba(0, 0, 0, 0.1)',
+            boxShadow:
+              mode === 'dark' ? '0px 2px 8px rgba(0, 0, 0, 0.3)' : '0px 2px 8px rgba(0, 0, 0, 0.1)',
           },
           elevation2: {
-            boxShadow: mode === 'dark' 
-              ? '0px 4px 12px rgba(0, 0, 0, 0.4)' 
-              : '0px 4px 12px rgba(0, 0, 0, 0.15)',
+            boxShadow:
+              mode === 'dark'
+                ? '0px 4px 12px rgba(0, 0, 0, 0.4)'
+                : '0px 4px 12px rgba(0, 0, 0, 0.15)',
           },
         },
       },
@@ -184,15 +183,16 @@ export default function AppThemeProvider({
           root: {
             '& .MuiTableHead-root': {
               '& .MuiTableCell-root': {
-                borderBottom: `1px solid ${mode === 'dark' ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.12)'}`,
+                borderBottom: `1px solid ${
+                  mode === 'dark' ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.12)'
+                }`,
                 fontWeight: 600,
               },
             },
             '& .MuiTableBody-root': {
               '& .MuiTableRow-root:hover': {
-                backgroundColor: mode === 'dark' 
-                  ? 'rgba(255, 255, 255, 0.04)' 
-                  : 'rgba(0, 0, 0, 0.04)',
+                backgroundColor:
+                  mode === 'dark' ? 'rgba(255, 255, 255, 0.04)' : 'rgba(0, 0, 0, 0.04)',
               },
             },
           },
@@ -201,7 +201,9 @@ export default function AppThemeProvider({
       MuiTableCell: {
         styleOverrides: {
           root: {
-            borderBottom: `1px solid ${mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)'}`,
+            borderBottom: `1px solid ${
+              mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)'
+            }`,
           },
         },
       },
@@ -217,9 +219,8 @@ export default function AppThemeProvider({
           root: {
             borderRadius: 8,
             '&:hover': {
-              backgroundColor: mode === 'dark' 
-                ? 'rgba(255, 255, 255, 0.04)' 
-                : 'rgba(0, 0, 0, 0.04)',
+              backgroundColor:
+                mode === 'dark' ? 'rgba(255, 255, 255, 0.04)' : 'rgba(0, 0, 0, 0.04)',
             },
           },
         },
@@ -236,5 +237,3 @@ export default function AppThemeProvider({
     </ThemeContext.Provider>
   );
 }
-
-
