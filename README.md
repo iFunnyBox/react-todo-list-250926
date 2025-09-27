@@ -56,7 +56,8 @@ npm run dev
 pnpm dev
 ```
 
-應用程式將在 http://localhost:3001 啟動
+應用程式本地 http://localhost:3001 啟動
+Vercel访问 https://react-todo-list-250926-hko8.vercel.app
 
 ### 系統需求
 
