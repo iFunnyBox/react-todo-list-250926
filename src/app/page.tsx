@@ -118,7 +118,15 @@ export default function Home() {
 
   return (
     <div>
-      <Container maxWidth={false} sx={{ gridRowStart: 2, px: 0, pt: 5, pb: 0 }}>
+      <Container 
+        maxWidth={false} 
+        sx={{ 
+          gridRowStart: 2, 
+          px: { xs: 2, sm: 3, md: 5 }, 
+          pt: 5, 
+          pb: { xs: 3, sm: 4, md: 5 } 
+        }}
+      >
         <Typography variant="h4" fontWeight={700} mb={2}>
           Tasks
         </Typography>
