@@ -26,7 +26,8 @@ export const CreateTaskDialog: React.FC<CreateTaskDialogProps> = ({
 
   const handleCreate = () => {
     if (!title.trim()) return;
-    onCreate(title.trim(), dueDate || undefined);
+    const formattedDueDate = dueDate ? new Date(dueDate).toISOString() : undefined;
+    onCreate(title.trim(), formattedDueDate);
     setTitle('');
     setDueDate('');
   };

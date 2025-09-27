@@ -69,8 +69,13 @@ export const useTodos = (status: TodoStatus, sortBy: SortBy) => {
   };
 
   const createTodo = async (title: string, dueDate?: string) => {
-    await TodoApiService.createTodo({ title, dueDate });
-    await fetchTodos();
+    try {
+      await TodoApiService.createTodo({ title, dueDate });
+      await fetchTodos();
+    } catch (error) {
+      console.error('Failed to create todo:', error);
+      throw error;
+    }
   };
 
   const rows = useMemo(() => {

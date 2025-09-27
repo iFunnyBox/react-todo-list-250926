@@ -70,7 +70,9 @@ export default function Home() {
     try {
       await createTodo(title, dueDate);
       setOpen(false);
-    } catch (_) {}
+    } catch (error) {
+      console.error('Failed to create task:', error);
+    }
   };
 
   const handleInlineCreate = async (title: string) => {
