@@ -5,13 +5,19 @@ import {
   Container,
   Stack,
   Typography,
+  IconButton,
+  Box,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { TodoStatus, SortBy } from '@/types/todo';
 import { useTodos } from '@/hooks/useTodos';
 import { TodoTable, CreateTaskDialog, DueDateDialog, FilterSortMenus } from '@/components';
+import { useTheme } from './providers';
 
 export default function Home() {
+  const { mode, toggleMode } = useTheme();
   const [status, setStatus] = useState<TodoStatus>('active');
   const [sortBy, setSortBy] = useState<SortBy>('createdAt');
   const [open, setOpen] = useState(false);
@@ -127,9 +133,23 @@ export default function Home() {
           pb: { xs: 3, sm: 4, md: 5 } 
         }}
       >
-        <Typography variant="h4" fontWeight={700} mb={2}>
-          Tasks
-        </Typography>
+        <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+          <Typography variant="h4" fontWeight={700}>
+            Tasks
+          </Typography>
+          <IconButton 
+            onClick={toggleMode}
+            sx={{
+              color: 'text.primary',
+              '&:hover': {
+                backgroundColor: 'action.hover',
+              },
+            }}
+            aria-label="切换主题"
+          >
+            {mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
+          </IconButton>
+        </Box>
         <Stack direction="row" spacing={2} mb={2} alignItems="center">
           <Button
             size="small"
