@@ -1,10 +1,11 @@
 'use client';
-import { Box, Checkbox, TableCell, TableRow, Typography, TextField } from '@mui/material';
+import { Box, Checkbox, TableCell, TableRow, Typography } from '@mui/material';
 import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
 import CheckIcon from '@mui/icons-material/Check';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 import { Todo } from '@/types/todo';
 import { formatDateTime, isOverdue } from '@/utils/dateUtils';
+import { EditableTextField } from './EditableTextField';
 
 interface TodoRowProps {
   todo: Todo;
@@ -31,6 +32,7 @@ export const TodoRow: React.FC<TodoRowProps> = ({
   onEditingTitleChange,
   onSaveEditTitle,
   onCancelEditTitle,
+  editingSubmitting,
 }) => {
   const isEditing = editingId === todo.id;
 
@@ -65,28 +67,18 @@ export const TodoRow: React.FC<TodoRowProps> = ({
           }}
         />
       </TableCell>
-      <TableCell onDoubleClick={() => onStartEditTitle(todo)} sx={{ cursor: 'text' }}>
-        {isEditing ? (
-          <TextField
-            autoFocus
-            fullWidth
-            size="small"
-            value={editingTitle}
-            onChange={(e) => onEditingTitleChange(e.target.value)}
-            onBlur={onCancelEditTitle}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                e.preventDefault();
-                onSaveEditTitle();
-              } else if (e.key === 'Escape') {
-                e.preventDefault();
-                onCancelEditTitle();
-              }
-            }}
-          />
-        ) : (
-          <Typography variant="body2">{todo.title}</Typography>
-        )}
+      <TableCell>
+        <EditableTextField
+          value={todo.title}
+          isEditing={isEditing}
+          onSubmit={(newTitle) => {
+            onEditingTitleChange(newTitle);
+            onSaveEditTitle();
+          }}
+          onCancel={onCancelEditTitle}
+          onStartEdit={() => onStartEditTitle(todo)}
+          submitting={editingSubmitting}
+        />
       </TableCell>
       <TableCell onDoubleClick={() => onOpenDueDialog(todo)} sx={{ cursor: 'pointer' }}>
         {todo.dueDate ? (

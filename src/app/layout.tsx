@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-import AppThemeProvider from './providers';
+import ClientThemeProvider from '@/components/ClientThemeProvider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable}`}>
-        <AppThemeProvider>{children}</AppThemeProvider>
+        <ClientThemeProvider>{children}</ClientThemeProvider>
       </body>
     </html>
   );

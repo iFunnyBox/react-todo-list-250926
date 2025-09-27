@@ -5,6 +5,7 @@ import TuneIcon from '@mui/icons-material/Tune';
 import SortIcon from '@mui/icons-material/Sort';
 import CheckIcon from '@mui/icons-material/Check';
 import { TodoStatus, SortBy } from '@/types/todo';
+import { STATUS_OPTIONS, SORT_OPTIONS } from '@/constants/menuOptions';
 
 interface FilterSortMenusProps {
   status: TodoStatus;
@@ -21,18 +22,6 @@ export const FilterSortMenus: React.FC<FilterSortMenusProps> = ({
 }) => {
   const [filterEl, setFilterEl] = useState<null | HTMLElement>(null);
   const [sortEl, setSortEl] = useState<null | HTMLElement>(null);
-
-  const statusOptions = [
-    { key: 'active', label: '进行中' },
-    { key: 'completed', label: '已完成' },
-    { key: 'all', label: '全部任务' },
-  ] as const;
-
-  const sortOptions = [
-    { key: 'createdAt', label: 'Created at' },
-    { key: 'dueDate', label: 'Due Date' },
-    { key: 'order', label: 'Task ID' },
-  ] as const;
 
   return (
     <>
@@ -63,7 +52,7 @@ export const FilterSortMenus: React.FC<FilterSortMenusProps> = ({
         disableScrollLock
         keepMounted
       >
-        {statusOptions.map((opt) => (
+        {STATUS_OPTIONS.map((opt) => (
           <MenuItem
             key={opt.key}
             onClick={() => {
@@ -92,7 +81,7 @@ export const FilterSortMenus: React.FC<FilterSortMenusProps> = ({
         disableScrollLock
         keepMounted
       >
-        {sortOptions.map((opt) => (
+        {SORT_OPTIONS.map((opt) => (
           <MenuItem
             key={opt.key}
             onClick={() => {

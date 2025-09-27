@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Dialog, DialogContent, DialogActions, Box } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -24,8 +24,16 @@ export const DueDateDialog: React.FC<DueDateDialogProps> = ({
 }) => {
   const [value, setValue] = useState<Date | null>(initialValue);
 
-  const handleSave = () => {
-    onSave(value);
+  // 当对话框打开时，重置值
+  useEffect(() => {
+    if (open) {
+      setValue(initialValue);
+    }
+  }, [open, initialValue]);
+
+  const handleSave = async () => {
+    if (submitting) return;
+    await onSave(value);
   };
 
   const handleClose = () => {
@@ -69,6 +77,7 @@ export const DueDateDialog: React.FC<DueDateDialogProps> = ({
       <DialogActions>
         <Button
           onClick={handleClose}
+          disabled={submitting}
           sx={{
             bgcolor: 'common.white',
             color: 'common.black',
@@ -78,7 +87,7 @@ export const DueDateDialog: React.FC<DueDateDialogProps> = ({
           取消
         </Button>
         <Button variant="contained" onClick={handleSave} disabled={submitting}>
-          确认
+          {submitting ? '保存中...' : '确认'}
         </Button>
       </DialogActions>
     </Dialog>

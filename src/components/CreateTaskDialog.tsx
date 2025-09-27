@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Button,
   Dialog,
@@ -19,19 +19,35 @@ interface CreateTaskDialogProps {
 export const CreateTaskDialog: React.FC<CreateTaskDialogProps> = ({ open, onClose, onCreate }) => {
   const [title, setTitle] = useState('');
   const [dueDate, setDueDate] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleCreate = () => {
-    if (!title.trim()) return;
-    const formattedDueDate = dueDate ? new Date(dueDate).toISOString() : undefined;
-    onCreate(title.trim(), formattedDueDate);
-    setTitle('');
-    setDueDate('');
+  // 重置表单当对话框关闭时
+  useEffect(() => {
+    if (!open) {
+      setTitle('');
+      setDueDate('');
+      setSubmitting(false);
+    }
+  }, [open]);
+
+  const handleCreate = async () => {
+    if (!title.trim() || submitting) return;
+
+    setSubmitting(true);
+    try {
+      const formattedDueDate = dueDate ? new Date(dueDate).toISOString() : undefined;
+      await onCreate(title.trim(), formattedDueDate);
+    } catch (error) {
+      console.error('Failed to create task:', error);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleClose = () => {
-    onClose();
-    setTitle('');
-    setDueDate('');
+    if (!submitting) {
+      onClose();
+    }
   };
 
   return (
@@ -66,9 +82,11 @@ export const CreateTaskDialog: React.FC<CreateTaskDialogProps> = ({ open, onClos
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button variant="contained" onClick={handleCreate} disabled={!title.trim()}>
-          Create
+        <Button onClick={handleClose} disabled={submitting}>
+          Cancel
+        </Button>
+        <Button variant="contained" onClick={handleCreate} disabled={!title.trim() || submitting}>
+          {submitting ? 'Creating...' : 'Create'}
         </Button>
       </DialogActions>
     </Dialog>

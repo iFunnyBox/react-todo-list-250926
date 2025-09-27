@@ -14,11 +14,13 @@ const ThemeContext = createContext<{
 // 自定义 Hook
 export const useTheme = () => useContext(ThemeContext);
 
-export default function AppThemeProvider({ children }: { children: React.ReactNode }) {
+export default function ClientThemeProvider({ children }: { children: React.ReactNode }) {
   const [mode, setMode] = useState<'light' | 'dark'>('dark');
+  const [mounted, setMounted] = useState(false);
 
   // 从 localStorage 读取主题偏好
   useEffect(() => {
+    setMounted(true);
     const savedMode = localStorage.getItem('theme-mode') as 'light' | 'dark' | null;
     if (savedMode) {
       setMode(savedMode);
@@ -227,6 +229,18 @@ export default function AppThemeProvider({ children }: { children: React.ReactNo
       },
     },
   });
+
+  // 防止 hydration 不匹配 - 在客户端挂载前显示默认主题
+  if (!mounted) {
+    return (
+      <ThemeContext.Provider value={{ mode: 'dark', toggleMode }}>
+        <ThemeProvider theme={createTheme({ palette: { mode: 'dark' } })}>
+          <CssBaseline />
+          {children}
+        </ThemeProvider>
+      </ThemeContext.Provider>
+    );
+  }
 
   return (
     <ThemeContext.Provider value={{ mode, toggleMode }}>

@@ -1,76 +1,55 @@
 'use client';
 import { useState } from 'react';
-import {
-  Button,
-  Container,
-  Stack,
-  Typography,
-  IconButton,
-  Box,
-} from '@mui/material';
+import { Button, Container, Stack, Typography, IconButton, Box } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { TodoStatus, SortBy } from '@/types/todo';
 import { useTodos } from '@/hooks/useTodos';
+import { useTodoEditing } from '@/hooks/useTodoEditing';
 import { TodoTable, CreateTaskDialog, DueDateDialog, FilterSortMenus } from '@/components';
-import { useTheme } from './providers';
+import { useTheme } from '@/components/ClientThemeProvider';
 
 export default function Home() {
   const { mode, toggleMode } = useTheme();
   const [status, setStatus] = useState<TodoStatus>('active');
   const [sortBy, setSortBy] = useState<SortBy>('createdAt');
   const [open, setOpen] = useState(false);
-  const [inlineEditing, setInlineEditing] = useState(false);
-  const [inlineTitle, setInlineTitle] = useState('');
-  const [inlineSubmitting, setInlineSubmitting] = useState(false);
-  const [dueEditId, setDueEditId] = useState<string | null>(null);
-  const [dueEditValue, setDueEditValue] = useState<Date | null>(null);
-  const [dueSubmitting, setDueSubmitting] = useState(false);
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [editingTitle, setEditingTitle] = useState('');
-  const [editingSubmitting, setEditingSubmitting] = useState(false);
+
+  const { rows, idMap, toggleCompleted, updateTodoTitle, updateTodoDueDate, createTodo } = useTodos(
+    status,
+    sortBy
+  );
 
   const {
-    rows,
-    idMap,
-    toggleCompleted,
+    // 标题编辑状态
+    editingId,
+    editingTitle,
+    editingSubmitting,
+    setEditingTitle,
+    startEditTitle,
+    cancelEditTitle,
+    saveEditTitle,
+    // 内联创建状态
+    inlineEditing,
+    inlineTitle,
+    inlineSubmitting,
+    setInlineTitle,
+    startInlineEditing,
+    stopInlineEditing,
+    handleInlineCreate,
+    // 截止日期编辑状态
+    dueEditId,
+    dueEditValue,
+    dueSubmitting,
+    openDueDialog,
+    closeDueDialog,
+    saveDueDate,
+  } = useTodoEditing({
     updateTodoTitle,
     updateTodoDueDate,
     createTodo,
-  } = useTodos(status, sortBy);
-
-  const startEditTitle = (todo: any) => {
-    setEditingId(todo.id);
-    setEditingTitle(todo.title);
-  };
-
-  const cancelEditTitle = () => {
-    if (!editingSubmitting) {
-      setEditingId(null);
-      setEditingTitle('');
-    }
-  };
-
-  const saveEditTitle = async () => {
-    const id = editingId;
-    const title = editingTitle.trim();
-    if (!id) return;
-    if (!title) {
-      cancelEditTitle();
-      return;
-    }
-    setEditingSubmitting(true);
-    try {
-      await updateTodoTitle(id, title);
-      setEditingId(null);
-      setEditingTitle('');
-    } catch (_) {
-      // Error handling is done in the hook
-    } finally {
-      setEditingSubmitting(false);
-    }
-  };
+  });
 
   const handleCreate = async (title: string, dueDate?: string) => {
     try {
@@ -81,63 +60,21 @@ export default function Home() {
     }
   };
 
-  const handleInlineCreate = async (title: string) => {
-    if (!title) return;
-    setInlineSubmitting(true);
-    try {
-      await createTodo(title);
-      setInlineEditing(false);
-      setInlineTitle('');
-    } catch (_) {
-      setInlineEditing(false);
-    } finally {
-      setInlineSubmitting(false);
-    }
-  };
-
-  const openDueDialog = (todo: any) => {
-    setDueEditId(todo.id);
-    setDueEditValue(todo.dueDate ? new Date(todo.dueDate) : new Date());
-  };
-
-  const closeDueDialog = () => {
-    if (!dueSubmitting) {
-      setDueEditId(null);
-      setDueEditValue(null);
-    }
-  };
-
-  const saveDueDate = async (date: Date | null) => {
-    const id = dueEditId;
-    if (!id) return;
-    setDueSubmitting(true);
-    const newIso = date ? new Date(date).toISOString() : undefined;
-    try {
-      await updateTodoDueDate(id, newIso);
-      closeDueDialog();
-    } catch (_) {
-      closeDueDialog();
-    } finally {
-      setDueSubmitting(false);
-    }
-  };
-
   return (
     <div>
-      <Container 
-        maxWidth={false} 
-        sx={{ 
-          gridRowStart: 2, 
-          px: { xs: 2, sm: 3, md: 5 }, 
-          pt: 5, 
-          pb: { xs: 3, sm: 4, md: 5 } 
+      <Container
+        maxWidth={false}
+        sx={{
+          px: { xs: 2, sm: 3, md: 5 },
+          pt: 5,
+          pb: { xs: 3, sm: 4, md: 5 },
         }}
       >
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
           <Typography variant="h4" fontWeight={700}>
             Tasks
           </Typography>
-          <IconButton 
+          <IconButton
             onClick={toggleMode}
             sx={{
               color: 'text.primary',
@@ -164,8 +101,8 @@ export default function Home() {
               textTransform: 'none',
               height: 36,
               px: 2.5,
-              '&:hover': { 
-                bgcolor: 'action.hover', 
+              '&:hover': {
+                bgcolor: 'action.hover',
                 borderColor: 'primary.main',
                 color: 'primary.main',
               },
@@ -196,23 +133,13 @@ export default function Home() {
           inlineEditing={inlineEditing}
           inlineTitle={inlineTitle}
           onInlineTitleChange={setInlineTitle}
-          onStartInlineEditing={() => {
-            setInlineEditing(true);
-            setInlineTitle('');
-          }}
-          onStopInlineEditing={() => {
-            setInlineEditing(false);
-            setInlineTitle('');
-          }}
+          onStartInlineEditing={startInlineEditing}
+          onStopInlineEditing={stopInlineEditing}
           inlineSubmitting={inlineSubmitting}
         />
       </Container>
 
-      <CreateTaskDialog
-        open={open}
-        onClose={() => setOpen(false)}
-        onCreate={handleCreate}
-      />
+      <CreateTaskDialog open={open} onClose={() => setOpen(false)} onCreate={handleCreate} />
 
       <DueDateDialog
         open={Boolean(dueEditId)}

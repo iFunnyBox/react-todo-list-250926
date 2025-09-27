@@ -1,6 +1,5 @@
 'use client';
 import {
-  Box,
   Table,
   TableBody,
   TableCell,
@@ -8,10 +7,10 @@ import {
   TableHead,
   TableRow,
   Paper,
-  TextField,
 } from '@mui/material';
 import { Todo } from '@/types/todo';
 import { TodoRow } from './TodoRow';
+import { InlineCreateRow } from './InlineCreateRow';
 
 interface TodoTableProps {
   rows: Todo[];
@@ -92,48 +91,15 @@ export const TodoTable: React.FC<TodoTableProps> = ({
                 editingSubmitting={editingSubmitting}
               />
             ))}
-            <TableRow
-              hover
-              onClick={() => {
-                onStartInlineEditing();
-              }}
-              sx={{
-                cursor: 'text',
-                ...(inlineEditing && { backgroundColor: 'rgba(255,255,255,0.06)' }),
-              }}
-            >
-              <TableCell />
-              <TableCell colSpan={4}>
-                {inlineEditing ? (
-                  <TextField
-                    autoFocus
-                    fullWidth
-                    placeholder="New Task"
-                    size="small"
-                    value={inlineTitle}
-                    onChange={(e) => onInlineTitleChange(e.target.value)}
-                    onBlur={() => {
-                      if (!inlineSubmitting) {
-                        onStopInlineEditing();
-                      }
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault();
-                        onInlineCreate(inlineTitle);
-                      } else if (e.key === 'Escape') {
-                        e.preventDefault();
-                        onStopInlineEditing();
-                      }
-                    }}
-                  />
-                ) : (
-                  <Box display="inline-flex" sx={{ color: 'text.secondary' }}>
-                    New Task
-                  </Box>
-                )}
-              </TableCell>
-            </TableRow>
+            <InlineCreateRow
+              inlineEditing={inlineEditing}
+              inlineTitle={inlineTitle}
+              inlineSubmitting={inlineSubmitting}
+              onInlineTitleChange={onInlineTitleChange}
+              onStartInlineEditing={onStartInlineEditing}
+              onStopInlineEditing={onStopInlineEditing}
+              onInlineCreate={onInlineCreate}
+            />
           </TableBody>
         </Table>
       </TableContainer>
