@@ -233,12 +233,14 @@ export default function ClientThemeProvider({ children }: { children: React.Reac
   // 防止 hydration 不匹配 - 在客户端挂载前显示默认主题
   if (!mounted) {
     return (
-      <ThemeContext.Provider value={{ mode: 'dark', toggleMode }}>
-        <ThemeProvider theme={createTheme({ palette: { mode: 'dark' } })}>
-          <CssBaseline />
-          {children}
-        </ThemeProvider>
-      </ThemeContext.Provider>
+      <div suppressHydrationWarning>
+        <ThemeContext.Provider value={{ mode: 'dark', toggleMode }}>
+          <ThemeProvider theme={createTheme({ palette: { mode: 'dark' } })}>
+            <CssBaseline />
+            {children}
+          </ThemeProvider>
+        </ThemeContext.Provider>
+      </div>
     );
   }
 

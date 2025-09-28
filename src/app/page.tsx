@@ -61,7 +61,7 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <div suppressHydrationWarning>
       <Container
         maxWidth={false}
         sx={{
