@@ -16,7 +16,7 @@ interface TodoRowProps {
   editingId: string | null;
   editingTitle: string;
   onEditingTitleChange: (title: string) => void;
-  onSaveEditTitle: () => void;
+  onSaveEditTitle: (title?: string) => void;
   onCancelEditTitle: () => void;
   editingSubmitting: boolean;
 }
@@ -72,8 +72,7 @@ export const TodoRow: React.FC<TodoRowProps> = ({
           value={todo.title}
           isEditing={isEditing}
           onSubmit={(newTitle) => {
-            onEditingTitleChange(newTitle);
-            onSaveEditTitle();
+            onSaveEditTitle(newTitle);
           }}
           onCancel={onCancelEditTitle}
           onStartEdit={() => onStartEditTitle(todo)}

@@ -40,17 +40,17 @@ export const useTodoEditing = ({
     }
   }, [editingSubmitting]);
 
-  const saveEditTitle = useCallback(async () => {
+  const saveEditTitle = useCallback(async (title?: string) => {
     const id = editingId;
-    const title = editingTitle.trim();
-    if (!id || !title) {
+    const finalTitle = (title || editingTitle).trim();
+    if (!id || !finalTitle) {
       cancelEditTitle();
       return;
     }
 
     setEditingSubmitting(true);
     try {
-      await updateTodoTitle(id, title);
+      await updateTodoTitle(id, finalTitle);
       setEditingId(null);
       setEditingTitle('');
     } catch (error) {
